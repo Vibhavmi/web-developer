@@ -1,0 +1,19 @@
+*{
+    padding: 2%;
+    margin: 2%;
+    display:flexbox;
+    background-color:rgb(176, 59, 176);
+
+}
+
+
+
+
+
+
+h1,h2{
+background-color:aqua;
+height: 100px;
+width:100px;
+border:2px solid black;
+}
