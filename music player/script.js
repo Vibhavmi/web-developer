@@ -1,50 +1,39 @@
-let audio = document.getElementById('audio');
-let playPauseBtn = document.getElementById('play-pause-btn');
-let nextBtn = document.getElementById('next-btn');
-let prevBtn = document.getElementById('prev-btn');
-let seekSlider = document.getElementById('seek-slider');
-let trackName = document.getElementById('track-name');
-let trackArtist = document.getElementById('track-artist');
+const audioElement = document.getElementById('audio-element');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const stopBtn = document.getElementById('stop-btn');
+const trackNameElement = document.getElementById('track-name');
+const trackDurationElement = document.getElementById('track-duration');
 
-let tracks = [
-    { name: "Track 1", artist: "Artist 1", src: "s1.mp3" },
-    { name: "Track 2", artist: "Artist 2", src: "s1.mp3" },
-    { name: "Track 3", artist: "Artist 3", src: "s1.mp3" }
-];
-
-let currentTrackIndex = 0;
+let isPlaying = false;
 
 playPauseBtn.addEventListener('click', () => {
-    if (audio.paused) {
-        audio.play();
-        playPauseBtn.textContent = "Pause";
+    if (isPlaying) {
+        audioElement.pause();
+        playPauseBtn.textContent = 'Play';
     } else {
-        audio.pause();
-        playPauseBtn.textContent = "Play";
-    }
-});
-
-nextBtn.addEventListener('click', () => {
-    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-    updateTrack();
-});
-
-prevBtn.addEventListener('click', () => {
-    currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
-    updateTrack();
-});
-
-seekSlider.addEventListener('input', () => {
-    audio.currentTime = seekSlider.value * audio.duration / 100;
-});
-
-audio.addEventListener('ended', () => {
-    nextBtn.click();
-});
-
-function updateTrack() {
-    audio.src = tracks[currentTrackIndex].src;
-    trackName.textContent = tracks[currentTrackIndex].name;
-    trackArtist.textContent = tracks[currentTrackIndex].artist;
-    audio.play();
-}
+        audioElement.play();
+        playPauseBtn.textContent = 'Pause'; 
+     }
+        isPlaying = !isPlaying;
+    });
+    
+    stopBtn.addEventListener('click', () => {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        playPauseBtn.textContent = 'Play';
+        isPlaying = false;
+    });
+    
+    audioElement.addEventListener('timeupdate', () => {
+        const currentTime = audioElement.currentTime;
+        const duration = audioElement.duration;
+        const minutes = Math.floor(currentTime / 60);
+        const seconds = Math.floor(currentTime % 60);
+        trackDurationElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    });
+    
+    // Update track name and duration when the audio file is loaded
+    audioElement.addEventListener('loadedmetadata', () => {
+        trackNameElement.textContent = audioElement.src.split('/').pop();
+        trackDurationElement.textContent = `${Math.floor(audioElement.duration / 60)}:${Math.floor(audioElement.duration % 60).toString().padStart(2, '0')}`;
+    });

@@ -8,19 +8,15 @@
 </head>
 <body>
     <div class="music-player">
+        <div class="player-controls">
+            <button id="play-pause-btn">Play</button>
+            <button id="stop-btn">Stop</button>
+        </div>
         <div class="track-info">
-            <h2 id="track-name">Track Name</h2>
-            <p id="track-artist">Track Artist</p>
+            <p id="track-name">Track Name</p>
+            <p id="track-duration">00:00</p>
         </div>
-        <div class="controls">
-            <button id="play-pause-btn">Play/Pause</button>
-            <button id="next-btn">Next</button>
-            <button id="prev-btn">Previous</button>
-        </div>
-        <div class="seek-slider">
-            <input type="range" id="seek-slider" min="0" max="100" value="0">
-        </div>
-        <audio id="audio" src="s1.mp3"></audio>
+        <audio id="audio-element" src="K:\web developer\music player\s1.mp3"></audio>
     </div>
 
     <script src="script.js"></script>
